@@ -14,6 +14,12 @@ public class Hero {
     public Hero() {// No Args
     }
 
+    public Hero(int hero_id, String hero_name, String hero_weapon) {
+        this.hero_id = hero_id;
+        this.hero_name = hero_name;
+        this.hero_weapon = hero_weapon;
+    }
+
     public Hero(String hero_name, String hero_weapon) {// All Args except primary key
         this.hero_name = hero_name;
         this.hero_weapon = hero_weapon;
