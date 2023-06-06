@@ -80,7 +80,7 @@ public class HeroDAO implements HeroDAOInterface{
             ps.executeUpdate();
 
             return hero;
-            
+
         } catch(SQLException e){
             System.out.println("Insert Hero failed!");
             e.printStackTrace();

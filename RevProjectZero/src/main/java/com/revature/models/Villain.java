@@ -13,6 +13,12 @@ public class Villain {
     public Villain() { //No args constructor
     }
 
+    public Villain(int villain_id, String villain_name, String villain_weapon) {
+        this.villain_id = villain_id;
+        this.villain_name = villain_name;
+        this.villain_weapon = villain_weapon;
+    }
+
     public Villain(String villain_name, String villain_weapon) {// All args except primary key
         this.villain_name = villain_name;
         this.villain_weapon = villain_weapon;

@@ -9,16 +9,13 @@ import java.util.List;
 
 public class Launcher {
     public static void main(String[] args) {
+        List<String> names = new ArrayList<>();
+
         HeroDAO heroDAO = new HeroDAO();
         for(Hero hero : heroDAO.getAllHeroes()){
             System.out.println(hero);
+            names.add(hero.getHero_name());
         }
-
-        List<String> names = new ArrayList<>();
-        names.add("Ali");
-        names.add("David");
-        names.add("Rafael");
-        names.add("Leon the Professional");
 
         var app = Javalin.create(/*config*/)
                 .get("/", ctx -> {
