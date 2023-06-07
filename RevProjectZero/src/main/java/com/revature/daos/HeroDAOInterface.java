@@ -14,4 +14,10 @@ public interface HeroDAOInterface {
 
     //Method to insert hero
     Hero insertHero(Hero hero);
+
+    //Method to remove Hero
+    Boolean removeHero(int id);
+
+    //Method to update hero
+    Hero updateHero(Hero hero);
 }

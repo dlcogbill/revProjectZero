@@ -30,6 +30,9 @@ public class HeroDAO implements HeroDAOInterface{
                 heroList.add(hero);
             }
 
+            for(Hero h : heroList){
+                System.out.println(h);
+            }
             return heroList;
 
         } catch(SQLException e){
@@ -55,13 +58,14 @@ public class HeroDAO implements HeroDAOInterface{
                         rs.getString("hero_name"),
                         rs.getString("hero_weapon")
                 );
+
                 System.out.println(hero);
                 return hero;
             }
 
         }
         catch(SQLException e){
-            System.out.println("Error getting Hero!");
+            System.out.println("Failed getting Hero!");
             e.printStackTrace();
         }
         return null;
@@ -79,6 +83,7 @@ public class HeroDAO implements HeroDAOInterface{
 
             ps.executeUpdate();
 
+            System.out.println(hero.getHero_name() + " has been created");
             return hero;
 
         } catch(SQLException e){
@@ -87,4 +92,49 @@ public class HeroDAO implements HeroDAOInterface{
         }
         return null;
     }
+
+    @Override
+    public Boolean removeHero(int id) {
+
+        try(Connection conn = ConnectionUtil.getConnection()){
+
+            String sql = "DELETE FROM heroes WHERE hero_id = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+            ps.executeUpdate();
+
+            System.out.println("Hero has been removed");
+            return true;
+
+        } catch(SQLException e){
+            System.out.println("Remove hero failed!");
+            e.printStackTrace(); //tell the user what exactly went wrong
+        }
+
+        return false;
+    }
+
+    @Override
+    public Hero updateHero(Hero hero) {
+
+        try(Connection conn = ConnectionUtil.getConnection()){
+
+            String sql = "UPDATE heroes SET hero_name = ?, hero_weapon = ? WHERE hero_id = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, hero.getHero_name());
+            ps.setString(2, hero.getHero_weapon());
+            ps.setInt(3, hero.getHero_id());
+            ps.executeUpdate();
+
+            System.out.println(hero.getHero_name() + " has been updated");
+            return hero;
+
+        } catch(SQLException e){
+            System.out.println("Update hero failed!");
+            e.printStackTrace(); //tell the user what exactly went wrong
+        }
+
+        return null;
+    }
+
 }
