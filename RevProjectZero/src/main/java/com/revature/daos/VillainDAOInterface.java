@@ -14,4 +14,10 @@ public interface VillainDAOInterface {
 
     //Method to insert villain
     Villain insertVillain(Villain villain);
+
+    //Method to remove Villain
+    Boolean removeVillain(int id);
+
+    //Method to update villain
+    Villain updateVillain(Villain villain);
 }

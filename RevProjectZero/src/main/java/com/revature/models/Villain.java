@@ -52,10 +52,11 @@ public class Villain {
 
     @Override
     public String toString() {
-        return "Villain{" +
-                "villain_id=" + villain_id +
-                ", villain_name='" + villain_name + '\'' +
-                ", villain_weapon='" + villain_weapon + '\'' +
+        String tab = "  ";
+        return "Villain{" + "\n"  +
+                tab + "villain_id=" + villain_id +  ",\n"  +
+                tab + "villain_name='" + villain_name +  ",\n"  +
+                tab + "villain_weapon='" + villain_weapon +  ",\n"  +
                 '}';
     }
 }
