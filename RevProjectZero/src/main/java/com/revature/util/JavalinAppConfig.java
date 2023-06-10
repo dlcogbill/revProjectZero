@@ -8,6 +8,8 @@ import com.revature.controllers.VillainController;
 import io.javalin.Javalin;
 import io.javalin.json.JsonMapper;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Type;
 
@@ -29,7 +31,12 @@ public class JavalinAppConfig {
         }
     };
 
+    private static final Logger logger = LoggerFactory.getLogger(JavalinAppConfig.class);
     private Javalin app = Javalin.create(config -> config.jsonMapper(gsonMapper))
+            .before(ctx -> {
+                String log = ctx.method() + " Request was sent to " + ctx.fullUrl();
+                logger.info(log);
+            })
             .routes(() ->{
                 path("/", () -> { get(MovieController::handleMapAll); });
                 path("heroes", () ->{

@@ -32,6 +32,7 @@ public class HeroController {
         }catch (NumberFormatException e){
             // This block running means they didn't have a valid integer in the path
             ctx.status(400);
+            logger.warn("Get one Hero failed. Provided id was invalid");
             // Adding a return statement here because there's no point continuing with a bad int
             return;
         }
@@ -65,7 +66,7 @@ public class HeroController {
             //Use the Context to send the status and the json mapper to send the Java object as a JSON object as a response to http request
             ctx.status(201);
             ctx.json(returnedHero);
-            logger.info("The following villain was created: " + returnedHero);
+            logger.info("The following hero was created: " + returnedHero);
         } else {
             //Hero not created, bad status
             ctx.status(400);
@@ -83,6 +84,7 @@ public class HeroController {
         }catch (NumberFormatException e){
             // This block running means they didn't have a valid integer in their path
             ctx.status(400);
+            logger.warn("Hero removal failed. Provided id was invalid");
             // Adding a return statement here because there's no point continuing with a bad int
             return;
         }
@@ -114,7 +116,7 @@ public class HeroController {
             //Use the Context to send the status and json mapper to send the Java object as a JSON object as a response to http request
             ctx.status(201);
             ctx.json(returnedHero);
-            logger.info("The following villain was updated: " + returnedHero);
+            logger.info("The following hero was updated: " + returnedHero);
         } else {
             //Hero not updated, bad status
             ctx.status(400);

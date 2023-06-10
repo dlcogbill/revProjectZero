@@ -45,6 +45,7 @@ public class MovieController {
         }catch (NumberFormatException e){
             // This block running means they didn't have a valid integer in the path
             ctx.status(400);
+            logger.warn("Movie removal failed. Provided id was invalid");
             // Adding a return statement here because there's no point continuing with a bad int
             return;
         }
@@ -56,7 +57,7 @@ public class MovieController {
             //Use the Context to send the status and the json mapper to send the Java object as a JSON object as a response to http request
             ctx.status(200);
             ctx.json(movie);
-            logger.info("The following villain was found: " + movie);
+            logger.info("The following movie was found: " + movie);
         } else{
             //Hero not found, bad status
             ctx.status(404);
@@ -78,7 +79,7 @@ public class MovieController {
             //Use the json mapper to send the Java object as a JSON object as a response to http request
             ctx.status(201);
             ctx.json(returnedMovie);
-            logger.info("The following villain was created: " + movie);
+            logger.info("The following movie was created: " + movie);
         } else {
             //Movie not created, bad status
             ctx.status(400);
@@ -96,6 +97,7 @@ public class MovieController {
         }catch (NumberFormatException e){
             // This block running means they didn't have a valid integer in their path
             ctx.status(400);
+            logger.warn("Movie removal failed. Provided id was invalid");
             // Adding a return statement here because there's no point continuing with a bad int
             return;
         }

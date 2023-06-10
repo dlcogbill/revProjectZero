@@ -2,10 +2,14 @@ package com.revature.service;
 
 import com.revature.daos.*;
 import com.revature.models.Movie;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 
 public class MovieService {
+
+    private static final Logger logger = LoggerFactory.getLogger(MovieService.class);
 
     private final MovieDAOInterface movieDAO = new MovieDAO();
     private final HeroDAOInterface heroDAO = new HeroDAO();
@@ -44,6 +48,7 @@ public class MovieService {
         if (id > 0){ return movieDAO.getMovieById(id); }
 
         //return null to the controller and appropriately respond
+        logger.warn("Get Movie failed. Provided id was invalid");
         return null;
     }
 
@@ -53,15 +58,35 @@ public class MovieService {
         //Ensure movie_name is not null or empty
         // movie_release_year > 1950 and < 2024
         //foreign keys are greater than zero
-        if (movie.getMovie_name() == null
+        String log = "";
+        if ( movie.getMovie_name() == null
+                || movie.getMovie_name().isEmpty() ){
+            log += " Movie name is invalid.";
+        } else if ( movie.getHero_id_fk() < 0
+                || movie.getVillain_id_fk() < 0
+                || heroDAO.getHeroById(movie.getHero_id_fk()) == null
+                || villainDAO.getVillainById(movie.getVillain_id_fk()) == null){
+            log += " Hero or Villain key is invalid.";
+        } else if ( movie.getMovie_release_year() <= 1950
+                || movie.getMovie_release_year() > 2024 ){
+            log += " Movie release year is invalid.";
+        }
+
+        if (log != ""){
+            logger.warn("Movie creation failed." + log);
+            return null;
+        }
+
+
+        /*if (movie.getMovie_name() == null
                 || movie.getMovie_name().isEmpty()
                 || movie.getMovie_release_year() <= 1950
                 || movie.getMovie_release_year() > 2024
                 || movie.getHero_id_fk() < 0
                 || movie.getVillain_id_fk() < 0 ){
-            System.out.println("Movie invalid");
+            logger.warn("Movie creation failed. Provided movie was invalid");
             return null;
-        }
+        }*/
         //return results from DAO insert method and respond accordingly in controller
         return movieDAO.insertMovie(movie);
     }

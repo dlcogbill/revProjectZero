@@ -33,6 +33,7 @@ public class VillainController {
         }catch (NumberFormatException e){
             // This block running means they didn't have a valid integer in the path
             ctx.status(400);
+            logger.warn("Villain removal failed. Provided id was invalid");
             // Adding a return statement here because there's no point continuing with a bad int
             return;
         }
@@ -84,6 +85,7 @@ public class VillainController {
         }catch (NumberFormatException e){
             // This block running means they didn't have a valid integer in their path
             ctx.status(400);
+            logger.warn("Villain removal failed. Provided id was invalid");
             // Adding a return statement here because there's no point continuing with a bad int
             return;
         }
