@@ -1,5 +1,6 @@
 package com.revature.controllers;
 
+import com.revature.daos.MovieDAO;
 import com.revature.models.Hero;
 import com.revature.models.Movie;
 import com.revature.service.MovieService;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 
 public class MovieController {
 
-    private static final MovieService movieService = new MovieService();
+    private static final MovieService movieService = new MovieService(new MovieDAO());
     private static final Logger logger = LoggerFactory.getLogger(MovieController.class);
 
 
@@ -45,7 +46,7 @@ public class MovieController {
         }catch (NumberFormatException e){
             // This block running means they didn't have a valid integer in the path
             ctx.status(400);
-            logger.warn("Movie removal failed. Provided id was invalid");
+            logger.warn("Get Movie failed. Provided id was invalid");
             // Adding a return statement here because there's no point continuing with a bad int
             return;
         }

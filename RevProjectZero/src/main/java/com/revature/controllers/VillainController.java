@@ -1,5 +1,6 @@
 package com.revature.controllers;
 
+import com.revature.daos.VillainDAO;
 import com.revature.models.Villain;
 import com.revature.service.VillainService;
 import io.javalin.http.Context;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 
 public class VillainController {
 
-    private static final VillainService villainService = new VillainService();
+    private static final VillainService villainService = new VillainService(new VillainDAO());
 
     private static final Logger logger = LoggerFactory.getLogger(VillainController.class);
 
@@ -33,7 +34,7 @@ public class VillainController {
         }catch (NumberFormatException e){
             // This block running means they didn't have a valid integer in the path
             ctx.status(400);
-            logger.warn("Villain removal failed. Provided id was invalid");
+            logger.warn("Get Villain failed. Provided id was invalid");
             // Adding a return statement here because there's no point continuing with a bad int
             return;
         }

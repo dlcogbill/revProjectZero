@@ -11,7 +11,11 @@ public class MovieService {
 
     private static final Logger logger = LoggerFactory.getLogger(MovieService.class);
 
-    private final MovieDAOInterface movieDAO = new MovieDAO();
+    private MovieDAOInterface movieDAO;
+    public MovieService(MovieDAOInterface movieDAO){
+        this.movieDAO = movieDAO;
+    }
+
     private final HeroDAOInterface heroDAO = new HeroDAO();
     private final VillainDAOInterface villainDAO = new VillainDAO();
 
@@ -99,6 +103,7 @@ public class MovieService {
             return movieDAO.removeMovie(id);
         }
 
+        logger.warn("Movie removal failed. Provided id < 0");
         return false;
     }
 
@@ -106,8 +111,27 @@ public class MovieService {
     //validate provided movie
     public Movie updateMovie(Movie movie) {
 
+        String log = "";
+        if ( movie.getMovie_name() == null
+                || movie.getMovie_name().isEmpty() ){
+            log += " Movie name is invalid.";
+        } else if ( movie.getHero_id_fk() < 0
+                || movie.getVillain_id_fk() < 0
+                || heroDAO.getHeroById(movie.getHero_id_fk()) == null
+                || villainDAO.getVillainById(movie.getVillain_id_fk()) == null){
+            log += " Hero or Villain key is invalid.";
+        } else if ( movie.getMovie_release_year() <= 1950
+                || movie.getMovie_release_year() > 2024 ){
+            log += " Movie release year is invalid.";
+        }
+
+        if (log != ""){
+            logger.warn("Movie update failed." + log);
+            return null;
+        }
         //validate hero_name and hero_weapon are not null or empty strings and hero_id is greater 0
-        if (movie.getMovie_name() == null
+
+        /*if (movie.getMovie_name() == null
                 || movie.getMovie_name().isEmpty()
                 || movie.getMovie_release_year() <= 1950
                 || movie.getMovie_release_year() > 2024
@@ -115,7 +139,7 @@ public class MovieService {
                 || movie.getVillain_id_fk() < 0
                 || movie.getMovie_id() < 0 ){
             return null;
-        }
+        }*/
         //return update method from DAO and
         return movieDAO.updateMovie(movie);
     }

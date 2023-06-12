@@ -3,11 +3,15 @@ package com.revature.daos;
 
 import com.revature.models.Movie;
 import com.revature.util.ConnectionUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
 
 public class MovieDAO implements MovieDAOInterface{
+
+    private static final Logger logger = LoggerFactory.getLogger(MovieDAO.class);
     @Override
     public ArrayList<Movie> getAllMovies() {
         
@@ -46,7 +50,7 @@ public class MovieDAO implements MovieDAOInterface{
             return movieList;
 
         } catch(SQLException e){
-            System.out.println("Failed to get all movies");
+            logger.warn("Failed to get all movies");
             e.printStackTrace(); //detailed info in our console about what went wrong
         }
         return null;
@@ -85,7 +89,7 @@ public class MovieDAO implements MovieDAOInterface{
 
         }
         catch(SQLException e){
-            System.out.println("Failed getting Movie!");
+            logger.warn("Failed getting Movie!");
             e.printStackTrace(); //detailed info in our console about what went wrong
         }
         return null;

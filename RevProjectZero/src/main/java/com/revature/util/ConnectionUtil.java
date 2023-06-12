@@ -1,5 +1,8 @@
 package com.revature.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -11,8 +14,10 @@ public class ConnectionUtil {
     // private constructor --> prevents other users from making their own connections
     // public static getConnection method --> the ONLY way we want users to get the connection to the db
 
+    private static final Logger logger = LoggerFactory.getLogger(ConnectionUtil.class);
     // Private static instance
-    private static Connection conn = null; // We initialize this to be null so there's no open connection all the time
+    // We initialize this to be null so there's no open connection all the time
+    private static Connection conn = null;
 
 
     // private constructor
@@ -26,7 +31,7 @@ public class ConnectionUtil {
 
         if (conn != null && !conn.isClosed()){
             // This means the connections is NOT null and IS OPEN
-            System.out.println("Using a previously created connection");
+            logger.info("Using a previously created connection");
             return conn;
         }
 
@@ -34,7 +39,7 @@ public class ConnectionUtil {
             Class.forName("org.postgresql.Driver"); //searching for the postgres driver, which we have as a dependency
         } catch (ClassNotFoundException e) {
             e.printStackTrace(); //This tells us in the console what went wrong
-            System.out.println("problem occurred locating PostgreSQL driver");
+            logger.warn("problem occurred locating PostgreSQL driver");
         }
 
         String url = System.getenv("URL"); //schema name
@@ -42,6 +47,8 @@ public class ConnectionUtil {
         String password = System.getenv("PASSWORD");//PostgreSQL password
 
         conn = DriverManager.getConnection(url, username, password);
+        logger.info("Using a new connection");
+
         return conn;
     }
 }

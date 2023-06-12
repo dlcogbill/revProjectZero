@@ -34,7 +34,7 @@ public class JavalinAppConfig {
     private static final Logger logger = LoggerFactory.getLogger(JavalinAppConfig.class);
     private Javalin app = Javalin.create(config -> config.jsonMapper(gsonMapper))
             .before(ctx -> {
-                String log = ctx.method() + " Request was sent to " + ctx.fullUrl();
+                String log = ctx.method() + " Request was sent to " + ctx.fullUrl() + " from ip: " + ctx.ip();
                 logger.info(log);
             })
             .routes(() ->{

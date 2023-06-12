@@ -1,5 +1,6 @@
 package com.revature.controllers;
 
+import com.revature.daos.HeroDAO;
 import com.revature.models.Hero;
 import com.revature.service.HeroService;
 import io.javalin.http.Context;
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 
 public class HeroController {
 
-    private static final HeroService heroService = new HeroService();
+    private static final HeroService heroService = new HeroService(new HeroDAO());
     private static final Logger logger = LoggerFactory.getLogger(HeroController.class);
 
     public static void handleGetAll(Context ctx){
